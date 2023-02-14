@@ -1,7 +1,7 @@
 import App from './App';
 import React from 'react';
 import axios from 'axios';
-import { mount } from 'enzyme';
+import { render as enzymeRender, mount } from 'enzyme';
 import { render, screen, waitFor } from '@testing-library/react';
 import { act } from 'react-dom/test-utils';
 
@@ -49,6 +49,17 @@ jest.mock('axios');
 describe('App', () => {
   beforeEach(() => {
     axios.get.mockResolvedValue(getResponse);
+  });
+
+  it('should render static app', () => {
+    const wrapper = enzymeRender(<App />);
+    expect(wrapper.find('.title').text()).toBe(
+      'Use this to manage your life and work'
+    );
+    expect(wrapper.find('.add-input').prop('placeholder')).toBe(
+      'Enter your todo item'
+    );
+    expect(wrapper.find('.add-button').text()).toBe('+');
   });
 
   it('should list correctly using testLibrary', async () => {
