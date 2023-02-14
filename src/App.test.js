@@ -60,6 +60,7 @@ describe('App', () => {
       'Enter your todo item'
     );
     expect(wrapper.find('.add-button').text()).toBe('+');
+    expect(wrapper.find('h2').text()).toBe('Completed');
   });
 
   it('should list correctly using testLibrary', async () => {
