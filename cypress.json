@@ -1,7 +1,0 @@
-{
-  "baseUrl": "http://localhost:3000",
-  "video": false,
-  "env": {
-    "API": "http://localhost:8080/tasks"
-  }
-}
