@@ -1,0 +1,59 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TodoList should take TodoList snapshot 1`] = `
+LoadedCheerio {
+  "0": <ul
+    class="completed-list"
+  >
+    <h2>
+      Completed
+    </h2>
+    <li
+      class="task-item"
+    >
+      <input
+        checked=""
+        id="1"
+        type="checkbox"
+      />
+      <p
+        class="task-text"
+      >
+        task 01
+      </p>
+      <i
+        class="bi-trash"
+        id="1"
+      />
+    </li>
+  </ul>,
+  "_root": LoadedCheerio {
+    "0": Document {
+      "children": Array [
+        <html>
+          <head />
+          <body />
+        </html>,
+      ],
+      "endIndex": null,
+      "next": null,
+      "parent": null,
+      "prev": null,
+      "startIndex": null,
+      "type": "root",
+      "x-mode": "quirks",
+    },
+    "_root": [Circular],
+    "length": 1,
+    "options": Object {
+      "decodeEntities": true,
+      "xml": false,
+    },
+  },
+  "length": 1,
+  "options": Object {
+    "decodeEntities": true,
+    "xml": false,
+  },
+}
+`;
