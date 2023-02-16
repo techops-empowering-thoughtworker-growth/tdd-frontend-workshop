@@ -64,13 +64,12 @@ describe('App', () => {
   });
 
   it('should list correctly using testLibrary', async () => {
-    const mockAxios = axios.get.mockResolvedValue(getResponse);
     render(<App />);
     await waitFor(() => {
       expect(screen.getByText('task 01')).toBeInTheDocument();
       expect(screen.getByText('task 02')).toBeInTheDocument();
     });
-    expect(mockAxios).toHaveBeenCalledWith('http://localhost:8080/tasks');
+    expect(axios.get).toHaveBeenCalledWith('http://localhost:8080/tasks');
   });
 
   it('should list correctly using Enzyme and Jest', async () => {
@@ -188,5 +187,10 @@ describe('App', () => {
       completed: false,
     });
     expect(wrapper.find('.todo-list').find('.task-item')).toHaveLength(2);
+  });
+
+  it('should match snapshot', async () => {
+    const wrapper = enzymeRender(<App />);
+    expect(wrapper).toMatchSnapshot();
   });
 });
