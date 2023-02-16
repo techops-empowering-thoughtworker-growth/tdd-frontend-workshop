@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import PropTypes from 'prop-types';
 
 const InputTodo = (props) => {
   const [inputText, setInputText] = useState('');
@@ -33,10 +32,6 @@ const InputTodo = (props) => {
       </div>
     </div>
   );
-};
-
-InputTodo.propTypes = {
-  addTodoProps: PropTypes.func,
 };
 
 export default InputTodo;

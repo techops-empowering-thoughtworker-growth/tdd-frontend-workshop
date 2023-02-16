@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import axios from 'axios';
 
 const TodoList = (props) => {
@@ -46,13 +45,6 @@ const TodoList = (props) => {
       ))}
     </ul>
   );
-};
-
-TodoList.propTypes = {
-  todoItems: PropTypes.array.isRequired,
-  handleChangeProps: PropTypes.func,
-  deleteTodoProps: PropTypes.func,
-  setUpdate: PropTypes.func,
 };
 
 export default TodoList;
