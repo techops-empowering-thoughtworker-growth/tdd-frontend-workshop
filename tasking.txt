@@ -1,0 +1,24 @@
+Story1:
+    List tasks
+    happy path:
+        - display static app without task items ✅
+        - should call get interface and display data ✅
+    sad path:
+        - omit
+
+Story2:
+    Add tasks
+    happy path:
+        - should have an input box, an add button and a main title
+        - should have called post api and change todoList after click add button
+    sad path:
+        - omit
+
+Story3:
+    Update tasks:
+    happy path:
+        - should update task after click checkbox next to certain task
+            - should call update api
+            - should display right content
+    sad path:
+        - omit
