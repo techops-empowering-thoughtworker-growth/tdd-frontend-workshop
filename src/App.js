@@ -4,6 +4,19 @@ import axios from 'axios';
 
 function App() {
   const [todoItems, setTodoItems] = useState([]);
+  const [singleItem, setSingleItem] = useState('');
+
+  const saveTask = () => {
+    axios
+      .post('http://localhost:8080/tasks', { name: singleItem });
+      todoItems.push({
+          id: 3,
+          name: 'name3',
+          completed: false
+      });
+      console.log(todoItems);
+      setTodoItems(todoItems);
+  };
 
   useEffect(
     () =>
@@ -19,8 +32,14 @@ function App() {
       <div className={'input-component'}>
         <h1 className={'title'}>Use this to manage your work and life</h1>
         <div className={'input-bar'}>
-          <input className={'add-input'} placeholder={'Enter your todo item'} />
-          <div className={'add-button'}>+</div>
+          <input
+            className={'add-input'}
+            placeholder={'Enter your todo item'}
+            onChange={(event) => setSingleItem(event.target.value)}
+          />
+          <div className={'add-button'} onClick={saveTask}>
+            +
+          </div>
         </div>
       </div>
       <div className={'todo-list'}>

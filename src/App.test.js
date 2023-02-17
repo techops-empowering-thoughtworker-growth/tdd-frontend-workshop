@@ -64,4 +64,28 @@ describe('App test', () => {
     expect(wrapper.find('.todo-list').find('.task-item')).toHaveLength(1);
     expect(wrapper.find('.completed-list').find('.task-item')).toHaveLength(1);
   });
+
+  it('should add tasks correctly', async () => {
+    axios.get.mockResolvedValue(getResponse);
+    axios.post.mockResolvedValue({ id: 3, name: 'task 03', completed: false });
+    let wrapper;
+    await act(async () => {
+      wrapper = mount(<App />);
+    });
+    wrapper.update();
+    expect(axios.get).toHaveBeenCalledWith('http://localhost:8080/tasks');
+    expect(wrapper.find('.task-item')).toHaveLength(2);
+    expect(wrapper.find('.todo-list').find('.task-item')).toHaveLength(1);
+    expect(wrapper.find('.completed-list').find('.task-item')).toHaveLength(1);
+
+    wrapper
+      .find('.add-input')
+      .simulate('change', { target: { value: 'task3' } });
+    await act(async () => {
+      wrapper.find('.add-button').simulate('click');
+    });
+    wrapper.update();
+    expect(axios.post).toHaveBeenCalledTimes(1);
+    expect(wrapper.find('.task-item')).toHaveLength(3);
+  });
 });
