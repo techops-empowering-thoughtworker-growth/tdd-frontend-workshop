@@ -1,0 +1,65 @@
+npm_install_cache_key: &npm_install_cache_key v1-dependencies-{{ checksum "package-lock.json" }}
+
+version: 2.1
+orbs:
+  allure: ayte/allure@0.1.3
+  java11: drift/java11@0.1.2
+
+jobs:
+  run-test:
+    docker:
+      - image: cimg/node:13.14.0
+    working_directory: ~/repo
+    steps:
+      - checkout
+      - restore_cache:
+            keys:
+              - *npm_install_cache_key
+              - v1-dependencies-
+      - java11/install-java11-and-maven36
+      - allure/install
+      - run:
+          name: Install Headless Chrome dependencies
+          command: |
+            sudo apt-get update && \
+            sudo apt-get install -yq \
+            gconf-service libasound2 libatk1.0-0 libatk-bridge2.0-0 libc6 libcairo2 libcups2 libdbus-1-3 \
+            libexpat1 libfontconfig1 libgcc1 libgconf-2-4 libgdk-pixbuf2.0-0 libglib2.0-0 libgtk-3-0 libnspr4 \
+            libpango-1.0-0 libpangocairo-1.0-0 libstdc++6 libx11-6 libx11-xcb1 libxcb1 libxcomposite1 libxcursor1 \
+            libxdamage1 libxext6 libxfixes3 libxi6 libxrandr2 libxrender1 libxss1 libxtst6 ca-certificates \
+            fonts-liberation libappindicator1 libnss3 lsb-release xdg-utils wget
+      - run: npm install
+      - save_cache:
+          key: *npm_install_cache_key
+          paths:
+            - node_modules
+      - run:
+          name: Download Base Imgs
+          command: GOOGLE_APPLICATION_CREDENTIALS=$GOOGLE_APPLICATION_CREDENTIALS node ./ui/helpers/downloadBaseImgs.js
+      - run:
+          name: Run Test
+          command: USERNAMEEMAIL=$USERNAME_EMAIL PASSWORD=$PASSWORD npm test
+      - store_artifacts:
+          path: ./ui/output
+
+      # generate artifacts from ./ui/output/allure-report and check report at /Report/Allure/index.html
+      - run:
+          name: Allure report generation
+          command: |
+            allure generate --report-dir allure-report ui/output/allure-report
+          when: always
+      - store_artifacts:
+          path: allure-report
+
+workflows:
+  version: 2
+  ui-test-everyday:
+#    triggers:
+#      - schedule:
+#          cron: "0 2,7 * * *"
+#          filters:
+#            branches:
+#              only:
+#                - main
+    jobs:
+      - run-test
